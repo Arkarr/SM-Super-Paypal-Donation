@@ -1,0 +1,41 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template/shop-homepage)
+ * Copyright 2013-2020 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+
+body
+{
+	padding-top: 95px;
+}
+
+.carousel-indicators
+{
+	text-color: red;
+}
+
+.card-footer:last-child
+{
+	text-align: center;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon
+{
+	background-size: 100%, 100%;
+	background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+	content: '>';
+	font-size: 55px;
+	color: red;
+}
+
+.carousel-control-prev-icon:after
+{
+	content: '<';
+	font-size: 55px;
+	color: red;
+}
