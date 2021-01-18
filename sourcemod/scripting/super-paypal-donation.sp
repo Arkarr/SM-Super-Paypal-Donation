@@ -4,11 +4,12 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define PLUGIN_VERSION "1.00"
+#define PLUGIN_VERSION "1.1"
 
 #define QUERY_SELECT_ALL_SUCCESS_PAYEMENTS	"SELECT steamid, sourcemod_group FROM payments WHERE status='COMPLETED'"
 
 Handle DB;
+Handle CVAR_RconCommand;
 
 public Plugin myinfo = 
 {
@@ -22,6 +23,7 @@ public Plugin myinfo =
 public void OnPluginStart()
 {
 	CreateConVar("sm_super_paypal_donation", PLUGIN_VERSION, "Standard plugin version ConVar. Please don't change me!", FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+	CVAR_RconCommand = CreateConVar("sm_super_paypal_donation_rcon", "", "Execute this RCON each time a player is eligble for admin rights!");
 }
 
 public void OnConfigsExecuted()
@@ -88,6 +90,24 @@ public void ProcessVIP(int client, char[] groupName)
 	admin.SetFlag(adminflags, true);
 	
 	SetUserAdmin(client, admin, true);
+	
+	char rcon[300];
+	GetConVarString(CVAR_RconCommand, rcon, sizeof(rcon));
+	
+	if(strlen(rcon) > 1)
+	{
+		char clientID[20];
+		char steamID[50];
+		IntToString(GetClientUserId(client), clientID, sizeof(clientID));
+		Format(clientID, sizeof(clientID), "#%s", clientID);
+		
+		GetClientAuthId(client, AuthId_Steam2, steamID, sizeof(steamID));
+		
+		ReplaceString(rcon, sizeof(rcon), "[PLAYER]", clientID, true);
+		ReplaceString(rcon, sizeof(rcon), "[STEAMID]", steamID, true);
+		
+		ServerCommand(rcon);
+	}
 	
 	PrintToChat(client, "Thanks for your donation.");
 }
