@@ -27,12 +27,21 @@
 
 	use PayPalCheckoutSdk\Core\PayPalHttpClient;
 	use PayPalCheckoutSdk\Core\ProductionEnvironment;
-	
-	// Creating an environment
+	use PayPalCheckoutSdk\Core\SandboxEnvironment;
+
+	$environment = null;
+
+	//loading client id and secrets
 	$clientId = $configs["paypal"]["client_id"];
 	$clientSecret = $configs["paypal"]["client_secret"];
 
-	$environment = new ProductionEnvironment($clientId, $clientSecret);
+	// Creating an environment
+
+	if($configs["paypal"]["mode"] == "LIVE")
+		$environment = new ProductionEnvironment($clientId, $clientSecret);
+	else
+		$environment = new SandboxEnvironment($clientId, $clientSecret);
+
 	$client = new PayPalHttpClient($environment);
 
 	// Construct a request object and set desired parameters
