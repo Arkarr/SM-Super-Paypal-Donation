@@ -105,6 +105,7 @@ public void ProcessVIP(int client, char[] groupName)
 		
 		ReplaceString(rcon, sizeof(rcon), "[PLAYER]", clientID, true);
 		ReplaceString(rcon, sizeof(rcon), "[STEAMID]", steamID, true);
+		ReplaceString(rcon, sizeof(rcon), "[PACKAGEID]", groupName, true);
 		
 		ServerCommand(rcon);
 	}
