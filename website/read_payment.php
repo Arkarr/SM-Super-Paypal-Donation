@@ -7,6 +7,7 @@
 	
 	use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 	use PayPalCheckoutSdk\Core\PayPalHttpClient;
+	use PayPalCheckoutSdk\Core\ProductionEnvironment;
 	use PayPalCheckoutSdk\Core\SandboxEnvironment;
 	
 	$configs = parse_ini_file('./configs/config.ini', true, INI_SCANNER_RAW);
@@ -22,7 +23,11 @@
 	$clientId = $configs["paypal"]["client_id"];
 	$clientSecret = $configs["paypal"]["client_secret"];
 
-	$environment = new SandboxEnvironment($clientId, $clientSecret);
+	if($configs["paypal"]["mode"] == "LIVE")
+		$environment = new ProductionEnvironment($clientId, $clientSecret);
+	else
+		$environment = new SandboxEnvironment($clientId, $clientSecret);
+
 	$client = new PayPalHttpClient($environment);
 	
 	// Here, OrdersCaptureRequest() creates a POST request to /v2/checkout/orders
