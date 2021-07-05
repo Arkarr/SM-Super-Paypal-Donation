@@ -1,3 +1,12 @@
+<?php 
+	if(!isset($steam->steamid))
+	{ 
+		echo "<script>window.close();</script>";
+		header('Location: ./index.php');
+		exit;
+	}
+?>
+
 <html>
 
 	<head>
@@ -46,13 +55,6 @@
 			);
 			
 			$steam = new Vikas5914\SteamAuth($config);
-			
-			if(!isset($steam->steamid))
-			{ 
-				echo "<script>window.close();</script>";
-				header('Location: ./index.php');
-				exit;
-			}
 			
 			echo '<script>$.get("create_payment.php?package-id='.$_GET["package-id"].'&steamid='.$steam->steamid.'", function(data, status){ window.location.href = data;});</script>';
 		?>
