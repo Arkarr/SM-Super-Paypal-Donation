@@ -8,6 +8,8 @@
 
 	$configs = parse_ini_file('./configs/config.ini', true, INI_SCANNER_RAW);
 
+	ValidateConfig($configs);
+
 	$nbrPackages = array();
 	preg_match_all('/package ([0-9]+)/', file_get_contents('./configs/config.ini'), $nbrPackages);
 	$nbrPackages = count($nbrPackages[0]);
@@ -44,6 +46,25 @@
 
 	$conn->query($sql);
 	$conn->close();
+
+	function ValidateConfig($config)
+	{
+		foreach ($config as $value)
+		{
+			if(is_array($value))
+			{
+				ValidateConfig($value);
+			}
+			else
+			{
+				if($value == null || substr($value, 0, 5 ) == "YYYYY" || substr($value, 0, 5 ) == "XXXXX")
+				{
+					echo "Config file is invalid, can't continue";
+					exit(0);
+				}
+			}
+		}
+	}
 
 	
 ?>
