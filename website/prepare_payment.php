@@ -1,3 +1,21 @@
+<?php 
+	$config = array(
+		'apikey' => $configs["steam"]["api_key"], // Steam API KEY
+		'domainname' =>  $configs["steam"]["domain_name"], // Displayed domain in the login-screen
+		'loginpage' => $url, // Returns to last page if not set
+		'logoutpage' => $url
+	);
+			
+	$steam = new Vikas5914\SteamAuth($config);
+
+	if(!isset($steam->steamid))
+	{ 
+		echo "<script>window.close();</script>";
+		header('Location: ./index.php');
+		exit;
+	}
+?>
+
 <html>
 
 	<head>
@@ -46,13 +64,6 @@
 			);
 			
 			$steam = new Vikas5914\SteamAuth($config);
-			
-			if(!isset($steam->steamid))
-			{ 
-				echo "<script>window.close();</script>";
-				header('Location: ./index.php');
-				exit;
-			}
 			
 			echo '<script>$.get("create_payment.php?package-id='.$_GET["package-id"].'&steamid='.$steam->steamid.'", function(data, status){ window.location.href = data;});</script>';
 		?>
