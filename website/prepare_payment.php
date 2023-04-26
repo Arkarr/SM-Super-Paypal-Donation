@@ -1,5 +1,7 @@
 <?php 
-	$config = array(
+        require __DIR__ . '/vendor/autoload.php';
+	
+        $config = array(
 		'apikey' => $configs["steam"]["api_key"], // Steam API KEY
 		'domainname' =>  $configs["steam"]["domain_name"], // Displayed domain in the login-screen
 		'loginpage' => $url, // Returns to last page if not set
